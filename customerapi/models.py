@@ -19,7 +19,6 @@ class Product(models.Model):
     def __str__(self):
         return self.ProductName
 
-
 class OrderDetail(models.Model):
     OrderId = models.AutoField(primary_key=True)
     CustomerId = models.IntegerField(blank=False)
@@ -28,3 +27,22 @@ class OrderDetail(models.Model):
 
     def __str__(self):
         return f"Order #{self.OrderId}"
+
+class Equipment(models.Model):
+    Equipment_ID = models.AutoField(primary_key=True)
+    Plant_ID = models.IntegerField(blank=False)
+    Name = models.CharField(max_length=100)
+    Description = models.CharField(max_length=50)
+    WorkCenter = models.CharField(max_length=50)
+    Department_Type = models.CharField(max_length=25)
+    ValidUntil = models.DateTimeField()
+    CreatedAt = models.DateTimeField()
+    UpdatedAt = models.DateTimeField()
+    Enabled = models.IntegerField(blank=False)
+
+    class Meta:
+        db_table = 'Equipment'
+
+    def __str__(self):
+        return self.Name
+

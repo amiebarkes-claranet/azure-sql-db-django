@@ -94,11 +94,11 @@ WSGI_APPLICATION = 'django-sql-project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': os.getenv("DB_NAME"),
-        'HOST': os.getenv("DB_SERVER"),
+        'NAME': os.getenv("DB_NAME", "amc-demo-db"),
+        'HOST': os.getenv("DB_SERVER", "amc-demo-sql-server.database.windows.net"),
         'PORT': '1433',
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'USER': os.getenv("DB_USER", "amiebarkes"),
+        'PASSWORD': os.getenv("DB_PASSWORD", "Fab1o@Am1e"),
         'OPTIONS': {
 	            'driver': 'ODBC Driver 17 for SQL Server',
 	        },

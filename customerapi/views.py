@@ -6,9 +6,8 @@ from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 #from django.http import HttpResponse
 
-from customerapi.models import Customer, Product, OrderDetail
-from customerapi.serializers import CustomerSerializer,ProductSerializer, OrderDetailSerializer
-
+from customerapi.models import Customer, Product, OrderDetail, Equipment
+from customerapi.serializers import CustomerSerializer,ProductSerializer, OrderDetailSerializer, EquipmentSerializer
 
 # Create your views here.
 #Request handler which takes requests and sends the response
@@ -29,7 +28,7 @@ def CustomerAPI (request, id=0):
             if customers_serializer.is_valid():
                 customers_serializer.save()
                 return JsonResponse("Record Inserted Successfully",safe=False)
-            return JsonResponse("Oops...something went wrong.",safe=False)
+            return JsonResponse("The system encountered an error.",safe=False)
     elif request.method=='PUT':
             customer_data=JSONParser().parse(request)
             customer=Customer.objects.get(CustomerId=customer_data['CustomerId'])
@@ -37,7 +36,7 @@ def CustomerAPI (request, id=0):
             if customers_serializer.is_valid():
                 customers_serializer.save()
                 return JsonResponse("Record Updated Successfully",safe=False)
-            return JsonResponse("There is some error updating the record", safe=False)
+            return JsonResponse("The system encountered an error.", safe=False)
     elif request.method=='DELETE':
         customer=Customer.objects.get(CustomerId=id)
         customer.delete()
@@ -59,7 +58,7 @@ def ProductAPI (request, id=0):
         if products_serializer.is_valid():
             products_serializer.save()
             return JsonResponse("Record Inserted Successfully",safe=False)
-        return JsonResponse("Oops...something went wrong.",safe=False)
+        return JsonResponse("The system encountered an error.",safe=False)
     elif request.method=='PUT':
         product_data=JSONParser().parse(request)
         product=Product.objects.get(ProductId=product_data['ProductId'])
@@ -67,7 +66,7 @@ def ProductAPI (request, id=0):
         if products_serializer.is_valid():
             products_serializer.save()
             return JsonResponse("Record Updated Successfully",safe=False)
-        return JsonResponse("There is some error updating the record",safe=False)
+        return JsonResponse("The system encountered an error.",safe=False)
     elif request.method=='DELETE':
         product=Product.objects.get(ProductId=id)
         product.delete()
@@ -101,4 +100,34 @@ def OrderDetailAPI (request, id=0):
     elif request.method=='DELETE':
         orderDetails=OrderDetail.objects.get(OrderId=id)
         orderDetails.delete()
+        return JsonResponse("Record Deleted Successfully",safe=False)
+
+@csrf_exempt
+def EquipmentAPI (request, id=0):
+    if (request.method=='GET' and int(id) > 0):
+        equipment=Equipment.objects.filter(Equipment_ID=id)
+        equipment_serializer=EquipmentSerializer(equipment, many=True)
+        return JsonResponse(equipment_serializer.data,safe=False)
+    elif request.method=='GET':
+        equipment = Equipment.objects.all()
+        equipment_serializer=EquipmentSerializer(equipment,many=True)
+        return JsonResponse(equipment_serializer.data,safe=False)
+    elif request.method=='POST':
+        equipment_data=JSONParser().parse(request)
+        equipment_serializer=Equipment(data=equipment_data)
+        if equipment_serializer.is_valid():
+            equipment_serializer.save()
+            return JsonResponse("Record Inserted Successfully",safe=False)
+        return JsonResponse("The system encountered an error.",safe=False)
+    elif request.method=='PUT':
+        equipment_data=JSONParser().parse(request)
+        equipment=Equipment.objects.get(Equipment_ID=equipment_data['Equipment_ID'])
+        equipment_serializer=EquipmentSerializer(equipment,data=equipment_data)
+        if equipment_serializer.is_valid():
+            equipment_serializer.save()
+            return JsonResponse("Record Updated Successfully",safe=False)
+        return JsonResponse("The system encountered an error.",safe=False)
+    elif request.method=='DELETE':
+        equipment=Equipment.objects.get(Equipment_ID=id)
+        equipment.delete()
         return JsonResponse("Record Deleted Successfully",safe=False)

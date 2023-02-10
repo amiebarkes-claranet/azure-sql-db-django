@@ -1,0 +1,7 @@
+az account set --subscription 707c58c4-e5f4-4b9f-b443-2f28f9444916
+
+# Create a web app and deploy the code
+az webapp up -g dc-amcor-iot-smartfactory-rg -l CentralUS -p az-amcor-sql-db-django-plan --sku B1 -n az-amcor-sql-db-django-api -r 'PYTHON:3.9'
+
+# Configure database information as environment variables
+az webapp config appsettings set --settings DB_SERVER="amc-demo-sql-server.database.windows.net" DB_NAME="amc-demo-db" DB_USER="amiebarkes" DB_PASSWORD="Fab1o@Am1e"

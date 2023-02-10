@@ -15,5 +15,8 @@ urlpatterns=[
     re_path(r'^product/([0-9]+)/?$', views.ProductAPI, name='product'),
 
     re_path(r'^orderdetail/?$', views.OrderDetailAPI),
-    re_path(r'^orderdetail/([0-9]+)/?$', views.OrderDetailAPI, name='orderdetail')
+    re_path(r'^orderdetail/([0-9]+)/?$', views.OrderDetailAPI, name='orderdetail'),
+
+    re_path(r'^equipment/?$', views.EquipmentAPI),
+    re_path(r'^equipment/([0-9]+)/?$', views.EquipmentAPI, name='equipment')
 ]
